@@ -4,5 +4,5 @@ from .models import StudentModel
 
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
-        models = StudentModel
+        model = StudentModel
         fields = '__all__'
