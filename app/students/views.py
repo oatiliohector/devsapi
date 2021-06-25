@@ -14,3 +14,7 @@ class CreateStudent(generics.CreateAPIView):
 class UpdateStudent(generics.UpdateAPIView):
     queryset = StudentModel.objects.all()
     serializer_class = StudentSerializer
+
+class DestroyStudent(generics.DestroyAPIView):
+    queryset = StudentModel.objects.all()
+    serializer_class = StudentSerializer
