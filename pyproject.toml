@@ -6,6 +6,8 @@ authors = ["Atilio <atiliogoulart@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
+Django = "^3.2.5"
+djangorestframework = "^3.12.4"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

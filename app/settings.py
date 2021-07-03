@@ -65,16 +65,14 @@ WSGI_APPLICATION = 'app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+
 DATABASES = {
-        'default': {
-            'ENGINE': 'djongo',
-            'NAME': 'sayajin2',
-            'ENFORCE_SCHEMA': False,
-            'CLIENT': {
-                'host': 'mongodb+srv://hector:MRejy1ISkNw2QZeh@sayajin2.ztmv0.mongodb.net/sayajin2?retryWrites=true&w=majority'
-            }  
-        }
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+
 
 
 # Password validation
