@@ -30,3 +30,18 @@ class AddStudent(APIView):
             return Response(student_serializer.data)
         else:
             return Response(student_serializer.errors)
+    
+class StudentById(APIView):
+
+    def get_student(self, id):
+
+        try:
+            return StudentModel.objects.get(id=id)
+        except StudentModel.DoesNotExist:
+            return Response('Http404')
+    
+    def get(self, request, id):
+
+        students = self.get_student(id=id)
+        student_serializer = StudentSerializer(students)
+        return Response(student_serializer.data)
