@@ -11,3 +11,22 @@ class AllStudents(APIView):
         students = StudentModel.objects.all()
         students_serializer = StudentSerializer(students, many=True)
         return Response(students_serializer.data)
+
+class AddStudent(APIView):
+
+    def post(self, request):
+
+        data = {
+
+            'name': request.data.get('name'),
+            'age': request.data.get('age'),
+
+        }
+
+        student_serializer = StudentSerializer(data=data)
+
+        if student_serializer.is_valid():
+            student_serializer.save()   
+            return Response(student_serializer.data)
+        else:
+            return Response(student_serializer.errors)
