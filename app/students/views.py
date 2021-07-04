@@ -45,3 +45,11 @@ class StudentById(APIView):
         students = self.get_student(id=id)
         student_serializer = StudentSerializer(students)
         return Response(student_serializer.data)
+
+class StudentByAge(APIView):
+
+    def get(self, request, age):
+
+        student = StudentModel.objects.filter(age=age)
+        student_serializer = StudentSerializer(student, many=True)
+        return Response(student_serializer.data)
