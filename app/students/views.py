@@ -45,7 +45,15 @@ class StudentById(APIView):
         students = self.get_student(id=id)
         student_serializer = StudentSerializer(students)
         return Response(student_serializer.data)
+    
+    def delete(self, request, id):
 
+        students = self.get_student(id=id)
+        students.delete()
+        students_serializer = StudentSerializer(students)
+        return Response(students_serializer.data)
+    
+    
 class StudentByAge(APIView):
 
     def get(self, request, age):
