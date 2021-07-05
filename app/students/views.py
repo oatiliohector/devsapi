@@ -45,6 +45,23 @@ class StudentById(APIView):
         students = self.get_student(id=id)
         student_serializer = StudentSerializer(students)
         return Response(student_serializer.data)
+    
+    def delete(self, request, id):
+
+        students = self.get_student(id=id)
+        students.delete()
+        students_serializer = StudentSerializer(students)
+        return Response(students_serializer.data)
+    
+    def put(self, request, id):
+
+        student = self.get_student(id=id)
+        student_serializer = StudentSerializer(student, data=request.data)
+        if student_serializer.is_valid():
+            student_serializer.save()
+            return Response(student_serializer.data)
+        else:
+            return Response('Error, baby!')
 
 class StudentByAge(APIView):
 
