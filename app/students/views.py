@@ -45,3 +45,9 @@ class StudentById(APIView):
         students = self.get_object(id=id)
         students_serializer = StudentSerializer(students)
         return Response(students_serializer.data)
+
+    def delete(self, request, id):
+
+        students = self.get_object(id=id)
+        students.delete()
+        return Response('Sucessfull!')
