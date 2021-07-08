@@ -1,3 +1,4 @@
+from app import students
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -19,54 +20,44 @@ class AddStudent(APIView):
         data = {
 
             'name': request.data.get('name'),
-            'age': request.data.get('age'),
+            'age': request.data.get('age')
 
         }
 
         student_serializer = StudentSerializer(data=data)
 
         if student_serializer.is_valid():
-            student_serializer.save()   
+            student_serializer.save()
             return Response(student_serializer.data)
         else:
             return Response(student_serializer.errors)
-    
+
 class StudentById(APIView):
 
-    def get_student(self, id):
-
+    def get_object(self, id):
         try:
             return StudentModel.objects.get(id=id)
         except StudentModel.DoesNotExist:
             return Response('Http404')
-    
-    def get(self, request, id):
 
-        students = self.get_student(id=id)
-        student_serializer = StudentSerializer(students)
-        return Response(student_serializer.data)
-    
-    def delete(self, request, id):
+    def get(self, request, id, format=None):
 
-        students = self.get_student(id=id)
-        students.delete()
+        students = self.get_object(id=id)
         students_serializer = StudentSerializer(students)
         return Response(students_serializer.data)
-    
-    def put(self, request, id):
 
-        student = self.get_student(id=id)
-        student_serializer = StudentSerializer(student, data=request.data)
-        if student_serializer.is_valid():
-            student_serializer.save()
-            return Response(student_serializer.data)
+    def delete(self, request, id):
+
+        students = self.get_object(id=id)
+        students.delete()
+        return Response('Sucessfull!')
+
+    def put(self, request,id):
+
+        students = self.get_object(id=id)
+        students_serializer = StudentSerializer(students, data=request.data)
+        if students_serializer.is_valid():
+            students_serializer.save()
+            return Response('Sucessfull')
         else:
-            return Response('Error, baby!')
-
-class StudentByAge(APIView):
-
-    def get(self, request, age):
-
-        student = StudentModel.objects.filter(age=age)
-        student_serializer = StudentSerializer(student, many=True)
-        return Response(student_serializer.data)
+            return Response('ohhhhh tente de novo!')
