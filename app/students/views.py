@@ -51,3 +51,13 @@ class StudentById(APIView):
         students = self.get_object(id=id)
         students.delete()
         return Response('Sucessfull!')
+
+    def put(self, request,id):
+
+        students = self.get_object(id=id)
+        students_serializer = StudentSerializer(students, data=request.data)
+        if students_serializer.is_valid():
+            students_serializer.save()
+            return Response('Sucessfull')
+        else:
+            return Response('ohhhhh tente de novo!')
