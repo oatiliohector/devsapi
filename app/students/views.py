@@ -1,3 +1,4 @@
+from app import students
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -33,8 +34,14 @@ class AddStudent(APIView):
 
 class StudentById(APIView):
 
-    def get_student(self, id):
+    def get_object(self, id):
         try:
             return StudentModel.objects.get(id=id)
         except StudentModel.DoesNotExist:
             return Response('Http404')
+
+    def get(self, request, id, format=None):
+
+        students = self.get_object(id=id)
+        students_serializer = StudentSerializer(students)
+        return Response(students_serializer.data)
