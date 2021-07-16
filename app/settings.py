@@ -67,12 +67,15 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+        'default': {
+            'ENGINE': 'djongo',
+            'NAME': 'sayajin',
+            'ENFORCE_SCHEMA': False, #rvCtuP9U9qkbd0wM
+            'CLIENT': {
+                'host': 'mongodb+srv://hector:rvCtuP9U9qkbd0wM@sayajin.ztmv0.mongodb.net/sayajin?retryWrites=true&w=majority'
+            }  
+        }
 }
-
 
 
 # Password validation
