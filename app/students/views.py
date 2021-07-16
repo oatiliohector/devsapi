@@ -10,5 +10,5 @@ class AllStudent(APIView):
     def get(self, request):
 
         student = StudentModel.objects.all()
-        student_serializer = StudentSerializer(student)
+        student_serializer = StudentSerializer(student, many=True)
         return Response(student_serializer.data)
