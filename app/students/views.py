@@ -1,8 +1,8 @@
-from rest_framework import APIView
+from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from .models import StudentModel
-from .serializers import StudentSerializer
+from .serializer import StudentSerializer
 
 
 class AllStudent(APIView):
