@@ -46,3 +46,9 @@ class SpecificStudent(APIView):
         student = self.get_student(id=id)
         student_serializer = StudentSerializer(student)
         return Response(student_serializer.data)
+    
+    def delete(self, request, id):
+
+        student = self.get_student(id=id)
+        student.delete()
+        return Response('Deleted with sucessful!')
