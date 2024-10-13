@@ -1,13 +1,15 @@
 from fastapi import FastAPI
 
-app = FastAPI()
+app = FastAPI(
+    title="Devs API",
+    description="Software Engineer Jobs API",
+    version="1.0.0",
+)
 
-
-@app.get("/")
+@app.get('/')
 def main():
-    return {"Hello": "World!"}
+    return {"Welcome to the devpsAPI!": "Know more about on the route /docs"}
 
-
-@app.get("/items/{item_id}")
-def items(item_id: int):
-    return {"item_id": item_id}
+@app.get('/api/jobs/{job_id}')
+def get_job(job_id: int):
+    return {"job_id": job_id, "job_title": "Software Engineer", "company": "Devs"}
