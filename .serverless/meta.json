@@ -20,7 +20,298 @@
         "runtime": "nodejs18.x",
         "stage": "dev",
         "region": "us-east-1",
-        "versionFunctions": true
+        "versionFunctions": true,
+        "compiledCloudFormationTemplate": {
+          "AWSTemplateFormatVersion": "2010-09-09",
+          "Description": "The AWS CloudFormation template for this Serverless application",
+          "Resources": {
+            "HelloLogGroup": {
+              "Type": "AWS::Logs::LogGroup",
+              "Properties": {
+                "LogGroupName": "/aws/lambda/devsapi-dev-hello"
+              }
+            },
+            "IamRoleLambdaExecution": {
+              "Type": "AWS::IAM::Role",
+              "Properties": {
+                "AssumeRolePolicyDocument": {
+                  "Version": "2012-10-17",
+                  "Statement": [
+                    {
+                      "Effect": "Allow",
+                      "Principal": {
+                        "Service": [
+                          "lambda.amazonaws.com"
+                        ]
+                      },
+                      "Action": [
+                        "sts:AssumeRole"
+                      ]
+                    }
+                  ]
+                },
+                "Policies": [
+                  {
+                    "PolicyName": {
+                      "Fn::Join": [
+                        "-",
+                        [
+                          "devsapi",
+                          "dev",
+                          "lambda"
+                        ]
+                      ]
+                    },
+                    "PolicyDocument": {
+                      "Version": "2012-10-17",
+                      "Statement": [
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "logs:CreateLogStream",
+                            "logs:CreateLogGroup",
+                            "logs:TagResource"
+                          ],
+                          "Resource": [
+                            {
+                              "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/devsapi-dev*:*"
+                            }
+                          ]
+                        },
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "logs:PutLogEvents"
+                          ],
+                          "Resource": [
+                            {
+                              "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/devsapi-dev*:*:*"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "Path": "/",
+                "RoleName": {
+                  "Fn::Join": [
+                    "-",
+                    [
+                      "devsapi",
+                      "dev",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      "lambdaRole"
+                    ]
+                  ]
+                }
+              }
+            },
+            "HelloLambdaFunction": {
+              "Type": "AWS::Lambda::Function",
+              "Properties": {
+                "Code": {
+                  "S3Bucket": "serverless-framework-deployments-us-east-1-5ebe8375-da40",
+                  "S3Key": "serverless/devsapi/dev/1728871845480-2024-10-14T02:10:45.480Z/devsapi.zip"
+                },
+                "Handler": "app.handler",
+                "Runtime": "nodejs18.x",
+                "FunctionName": "devsapi-dev-hello",
+                "MemorySize": 1024,
+                "Timeout": 6,
+                "Role": {
+                  "Fn::GetAtt": [
+                    "IamRoleLambdaExecution",
+                    "Arn"
+                  ]
+                }
+              },
+              "DependsOn": [
+                "HelloLogGroup"
+              ]
+            },
+            "HelloLambdaVersionUI32PmorDU0cQI5s6Jlu0lFsh46ATxIqZqVAMahtg": {
+              "Type": "AWS::Lambda::Version",
+              "DeletionPolicy": "Retain",
+              "Properties": {
+                "FunctionName": {
+                  "Ref": "HelloLambdaFunction"
+                },
+                "CodeSha256": "NLfBHmM3mt86gV9OqqO0yqaY01FFyCHQxgyl0oXjdxs="
+              }
+            },
+            "HttpApi": {
+              "Type": "AWS::ApiGatewayV2::Api",
+              "Properties": {
+                "Name": "dev-devsapi",
+                "ProtocolType": "HTTP"
+              }
+            },
+            "HttpApiStage": {
+              "Type": "AWS::ApiGatewayV2::Stage",
+              "Properties": {
+                "ApiId": {
+                  "Ref": "HttpApi"
+                },
+                "StageName": "$default",
+                "AutoDeploy": true,
+                "DefaultRouteSettings": {
+                  "DetailedMetricsEnabled": false
+                }
+              }
+            },
+            "HelloLambdaPermissionHttpApi": {
+              "Type": "AWS::Lambda::Permission",
+              "Properties": {
+                "FunctionName": {
+                  "Fn::GetAtt": [
+                    "HelloLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "Action": "lambda:InvokeFunction",
+                "Principal": "apigateway.amazonaws.com",
+                "SourceArn": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":execute-api:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":",
+                      {
+                        "Ref": "HttpApi"
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              }
+            },
+            "HttpApiIntegrationHello": {
+              "Type": "AWS::ApiGatewayV2::Integration",
+              "Properties": {
+                "ApiId": {
+                  "Ref": "HttpApi"
+                },
+                "IntegrationType": "AWS_PROXY",
+                "IntegrationUri": {
+                  "Fn::GetAtt": [
+                    "HelloLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "PayloadFormatVersion": "2.0",
+                "TimeoutInMillis": 30000
+              }
+            },
+            "HttpApiRouteGet": {
+              "Type": "AWS::ApiGatewayV2::Route",
+              "Properties": {
+                "ApiId": {
+                  "Ref": "HttpApi"
+                },
+                "RouteKey": "GET /",
+                "Target": {
+                  "Fn::Join": [
+                    "/",
+                    [
+                      "integrations",
+                      {
+                        "Ref": "HttpApiIntegrationHello"
+                      }
+                    ]
+                  ]
+                }
+              },
+              "DependsOn": "HttpApiIntegrationHello"
+            },
+            "HttpApiRouteGetApiJobsJobidVar": {
+              "Type": "AWS::ApiGatewayV2::Route",
+              "Properties": {
+                "ApiId": {
+                  "Ref": "HttpApi"
+                },
+                "RouteKey": "GET /api/jobs/{job_id}",
+                "Target": {
+                  "Fn::Join": [
+                    "/",
+                    [
+                      "integrations",
+                      {
+                        "Ref": "HttpApiIntegrationHello"
+                      }
+                    ]
+                  ]
+                }
+              },
+              "DependsOn": "HttpApiIntegrationHello"
+            }
+          },
+          "Outputs": {
+            "ServerlessDeploymentBucketName": {
+              "Value": "serverless-framework-deployments-us-east-1-5ebe8375-da40",
+              "Export": {
+                "Name": "sls-devsapi-dev-ServerlessDeploymentBucketName"
+              }
+            },
+            "HelloLambdaFunctionQualifiedArn": {
+              "Description": "Current Lambda function version",
+              "Value": {
+                "Ref": "HelloLambdaVersionUI32PmorDU0cQI5s6Jlu0lFsh46ATxIqZqVAMahtg"
+              },
+              "Export": {
+                "Name": "sls-devsapi-dev-HelloLambdaFunctionQualifiedArn"
+              }
+            },
+            "HttpApiId": {
+              "Description": "Id of the HTTP API",
+              "Value": {
+                "Ref": "HttpApi"
+              },
+              "Export": {
+                "Name": "sls-devsapi-dev-HttpApiId"
+              }
+            },
+            "HttpApiUrl": {
+              "Description": "URL of the HTTP API",
+              "Value": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "https://",
+                    {
+                      "Ref": "HttpApi"
+                    },
+                    ".execute-api.",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ".",
+                    {
+                      "Ref": "AWS::URLSuffix"
+                    }
+                  ]
+                ]
+              },
+              "Export": {
+                "Name": "sls-devsapi-dev-HttpApiUrl"
+              }
+            }
+          }
+        },
+        "vpc": {}
       },
       "functions": {
         "hello": {
@@ -30,28 +321,35 @@
               "httpApi": {
                 "path": "/",
                 "method": "get"
-              }
+              },
+              "resolvedMethod": "GET",
+              "resolvedPath": "/"
             },
             {
               "httpApi": {
                 "path": "/api/jobs/{job_id}",
                 "method": "get"
-              }
+              },
+              "resolvedMethod": "GET",
+              "resolvedPath": "/api/jobs/{job_id}"
             }
-          ]
+          ],
+          "name": "devsapi-dev-hello",
+          "package": {},
+          "memory": 1024,
+          "timeout": 6,
+          "runtime": "nodejs18.x",
+          "vpc": {},
+          "versionLogicalId": "HelloLambdaVersionUI32PmorDU0cQI5s6Jlu0lFsh46ATxIqZqVAMahtg"
         }
       }
     },
     "serviceRawFile": "service: devsapi\n\nframeworkVersion: '4'\norg: curriculosayajinbot\n\nprovider:\n  name: aws\n  runtime: nodejs18.x\n  \nfunctions:\n  hello:\n    handler: app.handler\n    events:\n      - httpApi:\n          path: /\n          method: get\n      - httpApi:\n          path: /api/jobs/{job_id}\n          method: get\n",
     "command": [
-      "orgs",
-      "list"
+      "deploy"
     ],
     "options": {},
-    "error": {
-      "message": "Serverless command \"orgs list\" not found. Run \"serverless help\" for a list of all available commands.",
-      "code": "UNRECOGNIZED_CLI_COMMAND"
-    },
+    "error": null,
     "params": {},
     "machineId": "c4324ce7a161ec0e78944016f44e2530",
     "stage": "dev",
@@ -78,15 +376,16 @@
     "projectType": "traditional",
     "versionSf": "4.4.5",
     "serviceProviderAwsCfStackName": "devsapi-dev",
+    "integrations": {},
     "serviceUniqueId": "arn:aws:cloudformation:us-east-1:108782087607:stack/devsapi-dev/4bd12cd0-89cf-11ef-b65e-0affc335abeb",
     "serviceProviderAwsCfStackId": "arn:aws:cloudformation:us-east-1:108782087607:stack/devsapi-dev/4bd12cd0-89cf-11ef-b65e-0affc335abeb",
     "serviceProviderAwsCfStackCreated": "2024-10-14T01:54:49.616Z",
-    "serviceProviderAwsCfStackUpdated": "2024-10-14T02:04:01.215Z",
+    "serviceProviderAwsCfStackUpdated": "2024-10-14T02:10:55.004Z",
     "serviceProviderAwsCfStackStatus": "UPDATE_COMPLETE",
     "serviceProviderAwsCfStackOutputs": [
       {
         "OutputKey": "HelloLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:us-east-1:108782087607:function:devsapi-dev-hello:5",
+        "OutputValue": "arn:aws:lambda:us-east-1:108782087607:function:devsapi-dev-hello:6",
         "Description": "Current Lambda function version",
         "ExportName": "sls-devsapi-dev-HelloLambdaFunctionQualifiedArn"
       },
@@ -108,23 +407,5 @@
         "ExportName": "sls-devsapi-dev-HttpApiUrl"
       }
     ]
-  },
-  "unknown": {
-    "versionSfCore": null,
-    "versionFramework": "4.4.5",
-    "isWithinCompose": false,
-    "composeOrgName": null,
-    "composeServiceName": null,
-    "command": [
-      "login"
-    ],
-    "options": {},
-    "error": null,
-    "machineId": "c4324ce7a161ec0e78944016f44e2530",
-    "serviceProviderAwsCfStackId": null,
-    "serviceProviderAwsCfStackCreated": null,
-    "serviceProviderAwsCfStackUpdated": null,
-    "serviceProviderAwsCfStackStatus": null,
-    "serviceProviderAwsCfStackOutputs": null
   }
 }
