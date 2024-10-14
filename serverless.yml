@@ -1,0 +1,19 @@
+service: devsapi
+
+frameworkVersion: '4'
+org: curriculosayajinbot
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  
+functions:
+  hello:
+    handler: app.handler
+    events:
+      - httpApi:
+          path: /
+          method: get
+      - httpApi:
+          path: /api/jobs/{job_id}
+          method: get
