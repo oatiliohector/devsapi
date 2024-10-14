@@ -1,0 +1,130 @@
+{
+  "/Users/colaborador/Downloads/ideas/10TrillionDollars/devsapi": {
+    "versionSfCore": null,
+    "versionFramework": "4.4.5",
+    "isWithinCompose": false,
+    "isCompose": false,
+    "composeOrgName": null,
+    "composeResolverProviders": {
+      "default-aws-credential-resolver": "<REDACTED>"
+    },
+    "composeServiceName": null,
+    "servicePath": "/Users/colaborador/Downloads/ideas/10TrillionDollars/devsapi",
+    "serviceConfigFileName": "serverless.yml",
+    "service": {
+      "service": "devsapi",
+      "frameworkVersion": "4",
+      "org": "curriculosayajinbot",
+      "provider": {
+        "name": "aws",
+        "runtime": "nodejs18.x",
+        "stage": "dev",
+        "region": "us-east-1",
+        "versionFunctions": true
+      },
+      "functions": {
+        "hello": {
+          "handler": "app.handler",
+          "events": [
+            {
+              "httpApi": {
+                "path": "/",
+                "method": "get"
+              }
+            },
+            {
+              "httpApi": {
+                "path": "/api/jobs/{job_id}",
+                "method": "get"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "serviceRawFile": "service: devsapi\n\nframeworkVersion: '4'\norg: curriculosayajinbot\n\nprovider:\n  name: aws\n  runtime: nodejs18.x\n  \nfunctions:\n  hello:\n    handler: app.handler\n    events:\n      - httpApi:\n          path: /\n          method: get\n      - httpApi:\n          path: /api/jobs/{job_id}\n          method: get\n",
+    "command": [
+      "orgs",
+      "list"
+    ],
+    "options": {},
+    "error": {
+      "message": "Serverless command \"orgs list\" not found. Run \"serverless help\" for a list of all available commands.",
+      "code": "UNRECOGNIZED_CLI_COMMAND"
+    },
+    "params": {},
+    "machineId": "c4324ce7a161ec0e78944016f44e2530",
+    "stage": "dev",
+    "accessKeyV2": "<REDACTED>",
+    "accessKeyV1": "<REDACTED>",
+    "orgId": "2444e771-9057-4ad8-be2c-b3473d1d6d3d",
+    "orgName": "curriculosayajinbot",
+    "userId": "JkZJsBrgQ23dtXT7X3",
+    "dashboard": {
+      "isEnabledForService": false,
+      "requiredAuthentication": false,
+      "orgFeaturesInUse": null,
+      "orgObservabilityIntegrations": null,
+      "serviceAppId": null,
+      "serviceProvider": null,
+      "instanceParameters": null
+    },
+    "userName": "curriculosayajinbot",
+    "subscription": null,
+    "userEmail": "thehacktour@gmail.com",
+    "serviceProviderAwsRegion": "us-east-1",
+    "serviceProviderAwsCredentials": "<REDACTED>",
+    "serviceProviderAwsAccountId": "108782087607",
+    "projectType": "traditional",
+    "versionSf": "4.4.5",
+    "serviceProviderAwsCfStackName": "devsapi-dev",
+    "serviceUniqueId": "arn:aws:cloudformation:us-east-1:108782087607:stack/devsapi-dev/4bd12cd0-89cf-11ef-b65e-0affc335abeb",
+    "serviceProviderAwsCfStackId": "arn:aws:cloudformation:us-east-1:108782087607:stack/devsapi-dev/4bd12cd0-89cf-11ef-b65e-0affc335abeb",
+    "serviceProviderAwsCfStackCreated": "2024-10-14T01:54:49.616Z",
+    "serviceProviderAwsCfStackUpdated": "2024-10-14T02:04:01.215Z",
+    "serviceProviderAwsCfStackStatus": "UPDATE_COMPLETE",
+    "serviceProviderAwsCfStackOutputs": [
+      {
+        "OutputKey": "HelloLambdaFunctionQualifiedArn",
+        "OutputValue": "arn:aws:lambda:us-east-1:108782087607:function:devsapi-dev-hello:5",
+        "Description": "Current Lambda function version",
+        "ExportName": "sls-devsapi-dev-HelloLambdaFunctionQualifiedArn"
+      },
+      {
+        "OutputKey": "HttpApiId",
+        "OutputValue": "pv1sj6z1g4",
+        "Description": "Id of the HTTP API",
+        "ExportName": "sls-devsapi-dev-HttpApiId"
+      },
+      {
+        "OutputKey": "ServerlessDeploymentBucketName",
+        "OutputValue": "serverless-framework-deployments-us-east-1-5ebe8375-da40",
+        "ExportName": "sls-devsapi-dev-ServerlessDeploymentBucketName"
+      },
+      {
+        "OutputKey": "HttpApiUrl",
+        "OutputValue": "https://pv1sj6z1g4.execute-api.us-east-1.amazonaws.com",
+        "Description": "URL of the HTTP API",
+        "ExportName": "sls-devsapi-dev-HttpApiUrl"
+      }
+    ]
+  },
+  "unknown": {
+    "versionSfCore": null,
+    "versionFramework": "4.4.5",
+    "isWithinCompose": false,
+    "composeOrgName": null,
+    "composeServiceName": null,
+    "command": [
+      "login"
+    ],
+    "options": {},
+    "error": null,
+    "machineId": "c4324ce7a161ec0e78944016f44e2530",
+    "serviceProviderAwsCfStackId": null,
+    "serviceProviderAwsCfStackCreated": null,
+    "serviceProviderAwsCfStackUpdated": null,
+    "serviceProviderAwsCfStackStatus": null,
+    "serviceProviderAwsCfStackOutputs": null
+  }
+}
