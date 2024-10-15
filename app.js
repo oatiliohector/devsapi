@@ -11,6 +11,11 @@ app.get('/', (req, res) => {
     res.json({ "Welcome to the devpsAPI!": "Know more about on the route /docs" });
 });
 
+app.get('/api/teste', (req, res) => {
+    res.json({ "Welcome to the devpsAPI!": "Teste mais eficaz que tudo!" });
+});
+
+
 app.get('/api/jobs/:job_id', (req, res) => {
     const job_id = req.params.job_id;
     res.json({
