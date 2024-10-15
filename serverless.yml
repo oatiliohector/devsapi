@@ -23,3 +23,8 @@ functions:
       - httpApi:
           path: /api/jobs/{job_id}
           method: get
+
+package:
+  include:
+    - node_modules/**
+    - app.js
