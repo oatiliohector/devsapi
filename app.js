@@ -15,6 +15,10 @@ app.get('/lindo/teste', (req, res) => {
     res.json({ "Welcome to the devpsAPI!": "Teste mais eficaz que tudo!" });
 });
 
+app.get('/lindo/teste2', (req, res) => {
+    res.json({ "Welcome to the devpsAPI! 2": "Teste mais eficaz que tudo!" });
+});
+
 
 app.get('/api/jobs/:job_id', (req, res) => {
     const job_id = req.params.job_id;
