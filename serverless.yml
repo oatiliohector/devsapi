@@ -18,5 +18,8 @@ functions:
           path: /lindo/teste
           method: get
       - httpApi:
+          path: /lindo/teste2
+          method: get
+      - httpApi:
           path: /api/jobs/{job_id}
           method: get
