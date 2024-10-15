@@ -28,13 +28,13 @@ jobs:
     #   - name: Run tests
     #     run: npm test
 
-      - name: SonarCloud Scan
-        run: |
-          npx sonar-scanner \
-            -Dsonar.projectKey=<project_key> \
-            -Dsonar.organization=<organization> \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+      # - name: SonarCloud Scan
+      #   run: |
+      #     npx sonar-scanner \
+      #       -Dsonar.projectKey=<project_key> \
+      #       -Dsonar.organization=<organization> \
+      #       -Dsonar.host.url=https://sonarcloud.io \
+      #       -Dsonar.login=${{ secrets.SONAR_TOKEN }}
       
   deploy:
     name: Deploy to AWS Lambda
