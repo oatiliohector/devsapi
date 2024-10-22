@@ -25,13 +25,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-    #   - name: Run tests
-    #     run: npm test
-
   deploy:
     name: Deploy to AWS Lambda
     runs-on: ubuntu-latest
     needs: test-and-build
+    if: github.event_name == 'push'
 
     steps:
       - name: Checkout repository
