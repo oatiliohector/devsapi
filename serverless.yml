@@ -23,6 +23,9 @@ functions:
       - httpApi:
           path: /api/jobs/{job_id}
           method: get
+      - httpApi:
+          path: /api/empregos
+          method: get        
 
 package:
   include:
