@@ -28,3 +28,6 @@ package:
   include:
     - node_modules/**
     - app.js
+
+plugins:
+  - serverless-offline
