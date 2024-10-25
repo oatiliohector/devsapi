@@ -12,5 +12,8 @@
     "axios": "^1.7.7",
     "express": "^4.21.1",
     "serverless-http": "^3.2.0"
+  },
+  "devDependencies": {
+    "serverless-offline": "^14.3.3"
   }
 }
