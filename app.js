@@ -29,7 +29,7 @@ app.get('/api/jobs/:job_id', (req, res) => {
     });
 });
 
-app.get('/api/jobs', async (req, res) => {
+app.get('/api/empregos', async (req, res) => {
     const urls = [
         'https://jsonplaceholder.typicode.com/todos/1',
         'https://jsonplaceholder.typicode.com/todos/2',
