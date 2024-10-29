@@ -15,17 +15,8 @@ functions:
           path: /
           method: get
       - httpApi:
-          path: /lindo/teste
+          path: /api/v1/jobs
           method: get
-      - httpApi:
-          path: /lindo/teste2
-          method: get
-      - httpApi:
-          path: /api/jobs/{job_id}
-          method: get
-      - httpApi:
-          path: /api/empregos
-          method: get        
 
 package:
   include:
