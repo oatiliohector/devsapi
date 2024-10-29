@@ -1,7 +1,7 @@
 const express = require('express');
 const serverless = require('serverless-http');
-const jobsRoutes = require('./routes/jobs');
-const errorHandler = require('./middleware/errorHandler');
+const jobsRoutes = require('./src/routes/jobs');
+const errorHandler = require('./src/middleware/errorHandler');
 
 const app = express();
 app.use(express.json());
